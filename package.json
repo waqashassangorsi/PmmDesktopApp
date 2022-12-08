@@ -1,0 +1,87 @@
+{
+  "name": "firecci",
+  "productName":"firecci",
+  "version": "1.0.0",
+  "description": "\"Hello World\"",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron-forge start",
+    "rebuild": "electron-rebuild -f -w yourmodule",
+    "make": "electron-forge make",
+    "package": "electron-forge package",
+    "build-installer": "electron-builder"
+  },
+  "build": {
+    "appId": "firecci",
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "src/icon.ico"
+    },
+    "nsis": {
+      "installerIcon": "src/icon.ico",
+      "uninstallerIcon": "src/icon.ico",
+      "uninstallDisplayName": "firecci",
+      "license": "license.txt",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "author": "sysbi",
+  "license": "MIT",
+  "devDependencies": {
+    "@electron-forge/cli": "^6.0.0-beta.64",
+    "@electron-forge/maker-deb": "^6.0.0-beta.64",
+    "@electron-forge/maker-rpm": "^6.0.0-beta.64",
+    "@electron-forge/maker-squirrel": "^6.0.0-beta.64",
+    "@electron-forge/maker-zip": "^6.0.0-beta.64",
+    "electron": "^19.0.6",
+    "electron-rebuild": "^3.2.7",
+    "font-awesome": "^4.7.0"
+  },
+  "dependencies": {
+    "@electron/remote": "^2.0.8",
+    "axios": "^0.27.2",
+    "decompress": "^4.2.1",
+    "electron-alert": "^0.1.20",
+    "electron-squirrel-startup": "^1.0.0",
+    "electron-store": "^8.0.2",
+    "filereader": "^0.10.3",
+    "formidable": "^2.0.1",
+    "jquery": "^3.6.0",
+    "node-stream-zip": "^1.15.0",
+    "react-native-webview": "^11.22.7",
+    "sqlite3": "^5.0.9",
+    "sweetalert2": "^11.4.24",
+    "usb": "^2.4.3"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "my_whatsapp"
+          }
+        },
+        {
+          "name": "@electron-forge/maker-zip",
+          "platforms": [
+            "darwin"
+          ]
+        },
+        {
+          "name": "@electron-forge/maker-deb",
+          "config": {}
+        },
+        {
+          "name": "@electron-forge/maker-rpm",
+          "config": {}
+        }
+      ]
+    }
+  }
+}

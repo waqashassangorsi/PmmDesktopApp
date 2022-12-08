@@ -1,0 +1,31 @@
+{
+  "participants": [
+    {
+      "name": "Amir Sohail"
+    },
+    {
+      "name": "Aleem Khan"
+    }
+  ],
+  "messages": [
+    {
+      "sender_name": "Aleem Khan",
+      "timestamp_ms": 1658133783986,
+      "content": "HELO THERE ?",
+      "type": "Generic",
+      "is_unsent": false,
+      "is_taken_down": false,
+      "bumped_message_metadata": {
+        "bumped_message": "HELO THERE ?",
+        "is_bumped": false
+      }
+    }
+  ],
+  "title": "Amir Sohail",
+  "is_still_participant": true,
+  "thread_type": "Regular",
+  "thread_path": "inbox/amirsohail_xeg78ezmeg",
+  "magic_words": [
+    
+  ]
+}
