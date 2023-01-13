@@ -4,7 +4,7 @@
 }
 .date_label{
  margin-right: 9px;
- color:#ff5656;
+ color:#1C2D44;
  font-size: 19px;
 }
 .date_input{
@@ -13,9 +13,12 @@
     border-right: 0px;
 }
 .export_pdf{
-    background-color:#ff5656;
+    background-color:#1C2D44;
     border:none;
     border-radius: 6px;
+}
+.export_pdf:hover{
+    background-color:#1C2D44;
 }
 .messages_export{
  color:black;   
@@ -54,7 +57,7 @@
 }
 .right_msg{
     margin-top: 25px;
-    background: #ff5656;
+    background: #1C2D44;
     border-radius: 9px;
     padding: 7px;
     float: right;

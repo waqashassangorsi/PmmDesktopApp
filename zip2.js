@@ -212,6 +212,43 @@ window.addEventListener("DOMContentLoaded", () => {
 		},
 		false
 	);
+
+	document.getElementById("andorid_messages").addEventListener(
+		"click",
+		function () {
+           downloadapk();
+		},
+		false
+	);
+	 const exec = require('child_process').exec;
+function execute(command, callback) {
+			exec(command, (error, stdout, stderr) => { 
+				callback(stdout); 
+			});
+		};
+
+	function downloadapk(){
+		const directoryPath233 = path.join(__dirname+"/apkfolder/platform-tools/");
+        const apkfolder = path.join(__dirname);
+		var apkname = "";
+		fs.readdirSync(apkfolder).filter(function(file) {
+			if(file.indexOf(".apk")>-1){
+				apkname=file;
+			}
+		});
+           
+		   console.log('apkname',apkname);
+	
+
+		// call the function
+		execute('SETX path '+directoryPath233+'', (output) => {
+			//console.log("cmdcommand",output);
+		});
+
+		execute('adb install '+apkname+'', (output) => {
+			//console.log("cmdcommand2",'adb install '+apkname+'');
+		});
+	}
 	// const computerName = os.userInfo().homedir;
 	// console.log('computername',computerName);
 

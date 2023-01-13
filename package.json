@@ -18,11 +18,11 @@
       "target": [
         "nsis"
       ],
-      "icon": "src/icon.ico"
+      "icon": "src/icon3.ico"
     },
     "nsis": {
-      "installerIcon": "src/icon.ico",
-      "uninstallerIcon": "src/icon.ico",
+      "installerIcon": "src/icon3.ico",
+      "uninstallerIcon": "src/icon3.ico",
       "uninstallDisplayName": "firecci",
       "license": "license.txt",
       "oneClick": false,

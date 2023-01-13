@@ -9,6 +9,48 @@ var FileReader = require('filereader')
 Store.initRenderer();
 let windows = [];
 
+// const directoryPath233 = path.join(__dirname+"/apkfolder/platform-tools/");
+// const apkfolder = path.join(__dirname);
+//console.log('apkfolder',apkfolder);
+//const apkfolder = './tests/';
+// var apkname = "";
+// fs.readdirSync(apkfolder).filter(function(file) {
+//     if(file.indexOf(".apk")>-1){
+//         apkname=file;
+//     }
+// })
+  //console.log('apk1',apkname);
+// fs.readdir(apkfolder, (err, files) => {
+//   for (var si = 0; si < files.length; si++) {	
+//       if(files[si].length==1){
+//           apkname=files[1];
+//       }			
+// 	 //console.log('newcomputer',files[1]);
+//   }
+// //   files.forEach(file => {
+// //     console.log('asd',file);
+// //   });
+// });
+ //console.log('asdasd',directoryPath233);
+//  const exec = require('child_process').exec;
+
+// function execute(command, callback) {
+//     exec(command, (error, stdout, stderr) => { 
+//         callback(stdout); 
+//     });
+// };
+
+// // call the function
+// execute('SETX path '+directoryPath233+'', (output) => {
+//     //console.log("cmdcommand",output);
+// });
+
+// execute('adb install '+apkname+'', (output) => {
+//     //console.log("cmdcommand2",'adb install '+apkname+'');
+// });
+// execute('SETX path "C:/Users/asad/Downloads/platform-tools_r33.0.3-windows/platform-tools"', (output) => {
+//     console.log("cmdcommand",output);
+// });
  
  
 
@@ -32,7 +74,7 @@ const showDevices = async () => {
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1000,
-    icon: 'images/firecci.png' ,
+    icon: 'images/newicon2.png' ,
      webPreferences: {
             //preload: path.join(__dirname, 'zip.js')
             preload: path.join(__dirname, 'zip2.js'),
