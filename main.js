@@ -74,6 +74,7 @@ const showDevices = async () => {
 const createWindow = () => {
   const win = new BrowserWindow({
     width: 1000,
+   // autoHideMenuBar: true,
     icon: 'images/newicon2.png' ,
      webPreferences: {
             //preload: path.join(__dirname, 'zip.js')
@@ -110,6 +111,67 @@ const createWindow = () => {
                 win.show();  
                     win1.hide();
                 });
+
+           // win1.loadURL('https://book2say.com/whatsapp/');
+        });
+
+        ipcMain.on("facebookmsg",(event,data)=>{
+           // win.hide();  // close previous window
+            const win2 = new BrowserWindow({ width: 800, height: 600, webPreferences: {
+                    nodeIntegration: true,
+                    contextIsolation:false,
+                    webviewTag: true,
+                    preload: path.join(__dirname, 'messenger.js'),
+                }, })
+               // require("@electron/remote/main").enable(win1.webContents);
+                 win2.loadFile('messenger.html')
+                
+
+                ipcMain.on("facebookmsgnew",(event,data)=>{
+                    win.show();  
+                    win2.hide();
+                });
+
+           // win1.loadURL('https://book2say.com/whatsapp/');
+        });
+     
+
+        ipcMain.on("iphonemsg",(event,data)=>{
+           // win.hide();  // close previous window
+            const win3 = new BrowserWindow({ width: 800, height: 600, webPreferences: {
+                    nodeIntegration: true,
+                    contextIsolation:false,
+                    webviewTag: true,
+                    preload: path.join(__dirname, 'iphonemessage.js'),
+                }, })
+               // require("@electron/remote/main").enable(win1.webContents);
+                 win3.loadFile('iphonemessage.html')
+                
+
+                // ipcMain.on("facebookmsgnew",(event,data)=>{
+                //     win.show();  
+                //     win2.hide();
+                // });
+
+           // win1.loadURL('https://book2say.com/whatsapp/');
+        });
+
+        ipcMain.on("iphonewhatsapp",(event,data)=>{
+           // win.hide();  // close previous window
+            const win3 = new BrowserWindow({ width: 800, height: 600, webPreferences: {
+                    nodeIntegration: true,
+                    contextIsolation:false,
+                    webviewTag: true,
+                    preload: path.join(__dirname, 'iphonewhatsapp.js'),
+                }, })
+               // require("@electron/remote/main").enable(win1.webContents);
+                 win3.loadFile('iphonewhatsapp.html')
+                
+
+                // ipcMain.on("facebookmsgnew",(event,data)=>{
+                //     win.show();  
+                //     win2.hide();
+                // });
 
            // win1.loadURL('https://book2say.com/whatsapp/');
         });

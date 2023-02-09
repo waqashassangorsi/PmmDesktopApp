@@ -13,6 +13,7 @@ $(document).ready(function(){
    });
 
    $('.export_pdf').click(function(){
+       alert('123');
        var datanew=$('.jsondata').val();
         $.ajax({
             url:'http://messagewebsite.book2say.com/wp-json/whatsapp_template/v1/pdf_api',
