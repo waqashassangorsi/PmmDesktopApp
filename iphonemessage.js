@@ -9,13 +9,119 @@ const Store = require("electron-store");
 const cheerio = require('cheerio');
 const PDFDocument = require('pdfkit');
 const htmlPdf = require('html-pdf');
+// const { empty } = require("cheerio/lib/api/manipulation");
+// const ipc=require('electron').ipcRenderer;
+
+
 //const $=require('jquery');
 window.addEventListener("DOMContentLoaded", () => {
+
+function convertDate(dateString) {
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+  const dateParts = dateString.split(" ");
+  const dayOfWeek = dateParts[0];
+  const month = months.indexOf(dateParts[1]) + 1;
+  const day = dateParts[2];
+  const year = dateParts[3];
+  
+  return `${year}-${month.toString().padStart(2, '0')}-${day.padStart(2, '0')}`;
+}
+//   const printPDFButton=document.getElementById('print-pdf');
+// printPDFButton.addEventListener('click',event=>{
+//   alert('123');
+//   ipcRenderer.send('print-to-pdf');
+//   ipcRenderer.on('wrote-pdf',(event,path)=>{
+//      const message=`Wrote pdf to: ${path}`;
+//      document.getElementById('pdf-path').innerHTML=message;
+//   });
+// });
+
     document.querySelector(".numbers_data").innerHTML = "";
     document.getElementById("upload").style.display = "none";
      checkfiles();
-    
+
       var newrecord = "";
+
+      function getrecord(attr,newfile){
+
+             var fromdata=document.getElementById("fromdata").value;
+             var todata=document.getElementById("todata").value;
+            //  var formData = new FormData(document.getElementById("submitform")[0]);
+            //  formData.append('fromdata',fromdata);
+            //  formData.append('todata',todata);
+
+         const newdb = new sqlite3.Database(newfile);
+          const store = new Store();
+            newy = "";
+
+          var attr = attr;
+          const query2 = "SELECT * FROM message where handle_id=" + attr + "";
+          //console.log(query2);
+          newdb.serialize(() => {
+            newdb.all(query2, (err, row) => {
+              // store.delete('row3');
+              if (err) {
+                console.error("====>", err.message);
+              }
+              store.set("row3", row);
+              // newdb.close();
+            });
+          });
+          const data3 = store.get("row3");
+          //console.log('strigifiy',JSON.stringify(data3))
+          for (var sj1 = 0; sj1 < data3.length; sj1++) {
+            var date = data3[sj1].date / 1000;
+            var newdate = Date("Y-m-d H:i:s", date);
+            const outputDate = convertDate(newdate);
+            console.log("outputDate",outputDate);
+            var dateString = new Date(newdate).toDateString();
+            
+            //var newdate=new Date(data3[sj1].date);
+            if(fromdata=="" && todata==""){
+            
+                if (data3[sj1].is_from_me != 0) {
+                  
+                  newy +=
+                    '<div class="right_msg"><p>' +
+                    data3[sj1].text +
+                    "</p><span>" +
+                    newdate +
+                    "</span> <span>11:04</span></div>";
+                } else {
+                  newy +=
+                    '<div class="left_msg"><p>' +
+                    data3[sj1].text +
+                    "</p><span>" +
+                    newdate +
+                    "</span> <span>11:04</span></div>";
+                }
+              }else{
+
+                if(outputDate==fromdata || outputDate==todata){   
+
+                  if (data3[sj1].is_from_me != 0) {
+                    
+                    newy +=
+                      '<div class="right_msg"><p>' +
+                      data3[sj1].text +
+                      "</p><span>" +
+                      newdate +
+                      "</span> <span>11:04</span></div>";
+                  } else {
+                    newy +=
+                      '<div class="left_msg"><p>' +
+                      data3[sj1].text +
+                      "</p><span>" +
+                      newdate +
+                      "</span> <span>11:04</span></div>";
+                  }
+              }  
+                  
+              }
+          }
+          
+          return newdate;
+      }
     function checkfiles() {
     const computerName = os.userInfo().homedir;
 
@@ -131,44 +237,47 @@ window.addEventListener("DOMContentLoaded", () => {
     var elements = document.getElementsByClassName("data_p21");
 
     var myFunction = function () {
-      newy = "";
-
       var attr = this.getAttribute("data-id");
-      const query2 = "SELECT * FROM message where handle_id=" + attr + "";
-      //console.log(query2);
-      newdb.serialize(() => {
-        newdb.all(query2, (err, row) => {
-          // store.delete('row3');
-          if (err) {
-            console.error("====>", err.message);
-          }
-          store.set("row3", row);
-          // newdb.close();
-        });
-      });
-      const data3 = store.get("row3");
-      //console.log('strigifiy',JSON.stringify(data3))
-      for (var sj1 = 0; sj1 < data3.length; sj1++) {
-        var date = data3[sj1].date / 1000;
-        var newdate = Date("Y-m-d H:i:s", date);
-        var dateString = new Date(newdate).toDateString();
-        //var newdate=new Date(data3[sj1].date);
-        if (data3[sj1].is_from_me != 0) {
-          newy +=
-            '<div class="right_msg"><p>' +
-            data3[sj1].text +
-            "</p><span>" +
-            newdate +
-            "</span> <span>11:04</span></div>";
-        } else {
-          newy +=
-            '<div class="left_msg"><p>' +
-            data3[sj1].text +
-            "</p><span>" +
-            newdate +
-            "</span> <span>11:04</span></div>";
-        }
-      }
+      getrecord(attr,newfile);
+      //newy = "";
+
+      //var attr = this.getAttribute("data-id");
+      // const query2 = "SELECT * FROM message where handle_id=" + attr + "";
+      // //console.log(query2);
+      // newdb.serialize(() => {
+      //   newdb.all(query2, (err, row) => {
+      //     // store.delete('row3');
+      //     if (err) {
+      //       console.error("====>", err.message);
+      //     }
+      //     store.set("row3", row);
+      //     // newdb.close();
+      //   });
+      // });
+      // const data3 = store.get("row3");
+      // //console.log('strigifiy',JSON.stringify(data3))
+      // for (var sj1 = 0; sj1 < data3.length; sj1++) {
+      //   var date = data3[sj1].date / 1000;
+      //   var newdate = Date("Y-m-d H:i:s", date);
+      //   var dateString = new Date(newdate).toDateString();
+      //   //var newdate=new Date(data3[sj1].date);
+      //   if (data3[sj1].is_from_me != 0) {
+          
+      //     newy +=
+      //       '<div class="right_msg"><p>' +
+      //       data3[sj1].text +
+      //       "</p><span>" +
+      //       newdate +
+      //       "</span> <span>11:04</span></div>";
+      //   } else {
+      //     newy +=
+      //       '<div class="left_msg"><p>' +
+      //       data3[sj1].text +
+      //       "</p><span>" +
+      //       newdate +
+      //       "</span> <span>11:04</span></div>";
+      //   }
+      // }
       document.querySelector(".demo").innerHTML = newy;
       document.getElementById("padfcontent").innerHTML=newy;
       var newhtml= document.getElementById("padfcontent");
@@ -244,6 +353,8 @@ doc.end();
     var arr = [];
     for (var sj12 = 0; sj12 < data4.length; sj12++) {
       arr.push({
+
+
         date: data4[sj12].date,
         type: data4[sj12].is_from_me,
         address: "asdasd",
@@ -262,50 +373,23 @@ doc.end();
     //     console.log('check',pathdata);
   }
       
-      document.getElementById("newpdfgenereate").addEventListener(
-            "click",
-            function () {
-               var datanew= document.querySelector(".jsondata").value;
-              //  var newhtml=document.getElementById("padfcontent").innerHTML;
-              //   const datanew = newhtml.getElementsByTagName('p');
-              // var datanew=  document.getElementById("padfcontent").innerHTML;
-             //  var datanew1="hamza";
+      // document.getElementById("newpdfgenereate").addEventListener(
+      //       "click",
+      //       function () {
 
-                 var request = new XMLHttpRequest();
-    
-                  // Instantiating the request object
-                  request.open("POST", "http://messagewebsite.book2say.com/wp-json/whatsapp_template/v1/updatedpdf_api");
-                  
-                  // Defining event listener for readystatechange event
-                  request.onreadystatechange = function() {
-                      // Check if the request is compete and was successful
-                     
-                          // Inserting the response from server into an HTML element
-                         // document.getElementById("result").innerHTML = this.responseText;
-                      
-                  };
-                  
-                  // Retrieving the form data
-                  // var myForm = document.getElementById("myForm");
-                  // var formData = new FormData(myForm);
-
-                  // Sending the request to the server
-                  request.send(JSON.stringify(datanew));
-              // alert(datanew);
-                  // $.ajax({
-                  //     url:'http://messagewebsite.book2say.com/wp-json/whatsapp_template/v1/pdf_api',
-                  //     type:'post',
-                  //     data:{text:datanew},
-                  //     dataType:'json',
-                  //     success:function(html){
-                            
-                  //     }
-                  // });
-             // alert("123123");
-             // createPDFFromHTML('index.html');
-            },
-            false
-          );
+      //        var fromdata=document.getElementById("fromdata").val;
+      //        alert(fromdata);
+      //        var todata=document.getElementById("todata").val;
+      //        var formData = new FormData(document.getElementById("submitform")[0]);
+      //        formData.append('fromdata',fromdata);
+      //        formData.append('todata',todata);
+      //       // var ele=$(this);
+             
+      //          //var datanew= document.querySelector(".jsondata").value;
+                 
+      //       },
+      //       false
+      //     );
   //     $('.export_pdf').click(function(){
   //      alert('123');
   //  });
