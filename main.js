@@ -1,4 +1,4 @@
-const { app, BrowserWindow,dialog,ipcMain } = require('electron')
+const { app, BrowserWindow,dialog,ipcMain,shell } = require('electron')
 const fs = require("fs")
 const path = require('path');
 const usb = require('usb');
@@ -6,6 +6,10 @@ var formidable = require('formidable');
 const Store = require("electron-store");
 const Alert = require("electron-alert");
 var FileReader = require('filereader')
+const os = require("os");
+const { electron } = require('process');
+// const ipc=electron.ipcMain;
+// const shell=electron.shell;
 Store.initRenderer();
 let windows = [];
 
@@ -90,7 +94,7 @@ const createWindow = () => {
     require("@electron/remote/main").initialize();
     require("@electron/remote/main").enable(win.webContents);
   win.loadFile('index.html')
-  
+    //win.loadFile('licensekeydata.html')
    windows.push(win);
     showDevices();
    
@@ -114,6 +118,8 @@ const createWindow = () => {
 
            // win1.loadURL('https://book2say.com/whatsapp/');
         });
+
+     
 
         ipcMain.on("facebookmsg",(event,data)=>{
            // win.hide();  // close previous window
@@ -175,6 +181,43 @@ const createWindow = () => {
 
            // win1.loadURL('https://book2say.com/whatsapp/');
         });
+
+            ipcMain.on("licensekeydata",(event,data)=>{
+            const win4 = new BrowserWindow({ width: 800, height: 600, webPreferences: {
+                    nodeIntegration: true,
+                    contextIsolation:false,
+                    webviewTag: true,
+                    preload: path.join(__dirname, 'licensekeydata.js'),
+                }, })
+                 win4.loadFile('licensekeydata.html')
+
+                  ipcMain.on("msgnew2",(event,data)=>{
+                      win4.hide();  
+              });
+        });
+
+          ipcMain.on("print-to-pdf",(event,data)=>{
+            const pdfPath=path.join(os.tmpdir(), 'some-ducking-pdf.pdf');
+            const win=BrowserWindow.fromWebContents(event.sender);
+              // console.log('newpath',pdfPath);
+            win.webContents.printToPDF({}, (error,data)=>{
+                if(error) return console.log(error.message);
+
+                fs.writeFile(pdfPath, data,err=>{
+                   if(err) return console.log(err.message);
+                   shell.openExternal('file://' + pdfPath);
+                   event.sender.send('wrote-pdf',pdfPath);
+                });
+            });
+            // const win3 = new BrowserWindow({ width: 800, height: 600, webPreferences: {
+            //         nodeIntegration: true,
+            //         contextIsolation:false,
+            //         webviewTag: true,
+            //         preload: path.join(__dirname, 'iphonewhatsapp.js'),
+            //     }, })
+            //      win3.loadFile('iphonewhatsapp.html')
+        });
+     
      
          ipcMain.on("msg2",(event,data)=>{
 //          //   win.hide();  // close previous window

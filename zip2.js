@@ -17,6 +17,10 @@ const { output } = require("pdfkit");
 // const Alert = require("electron-alert");
 // window.$ = window.jQuery = require('jquery');
 window.addEventListener("DOMContentLoaded", () => {
+    const store = new Store();
+  
+  //store.delete('userlicensekey');
+  //console.log('userlices',store.get("userlicensekey"));
   const src = path.join(__dirname, "apkfolder");
   const newsrc = __dirname;
   const dest = path.join(__dirname, "../dest");
@@ -122,9 +126,20 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("text_messages").addEventListener(
     "click",
     function () {
-      document.querySelector(".numbers_data").innerHTML = "";
-      document.getElementById("upload").style.display = "none";
-      ipcRenderer.send("iphonemsg", "helwosaodsad");
+
+       const newdata=store.get("userlicensekey");
+      if(newdata!=null){
+        if(newdata.licence_key!=null){
+            document.querySelector(".numbers_data").innerHTML = "";
+            document.getElementById("upload").style.display = "none";
+            ipcRenderer.send("iphonemsg", "helwosaodsad");
+        }else{
+          alert("Please Enter License Key");
+        }
+      }else{
+        alert("Please Enter License Key");
+      }
+     
       //get_db();
       //checkfiles();
       //<<<<<<< HEAD
@@ -135,7 +150,17 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("andorid_messages").addEventListener(
     "click",
     function () {
-      downloadapk();
+       const newdata=store.get("userlicensekey");
+      if(newdata!=null){
+        if(newdata.licence_key!=null){
+           downloadapk();
+        }else{
+          alert("Please Enter License Key");
+        }
+      }else{
+        alert("Please Enter License Key");
+      }
+      
     },
     false
   );
@@ -143,15 +168,30 @@ window.addEventListener("DOMContentLoaded", () => {
   document.getElementById("iphonewhtasapp_messages").addEventListener(
     "click",
     function () {
-      // document.querySelector(".numbers_data2").innerHTML = "";
-      // document.getElementById("upload").style.display = "none";
-      ipcRenderer.send("iphonewhatsapp", "helwosaodsad");
-      //get_db();
-      //iphonewhatsappmsg();
-      //<<<<<<< HEAD
+        const newdata=store.get("userlicensekey");
+      if(newdata!=null){
+        if(newdata.licence_key!=null){
+          ipcRenderer.send("iphonewhatsapp", "helwosaodsad");
+        }else{
+          alert("Please Enter License Key");
+        }
+      }else{
+        alert("Please Enter License Key");
+      }
+      
     },
     false
   );
+
+  document.getElementById("license_keydata").addEventListener(
+    "click",
+    function () {
+
+         ipcRenderer.send("licensekeydata", "helwosaodsad");
+    },
+    false
+  );
+
   const exec = require("child_process").exec;
   function execute(command, callback) {
     exec(command, (error, stdout, stderr) => {
@@ -198,13 +238,30 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const facebook_msg = document.getElementById("facebook_msg");
   facebook_msg.addEventListener("click", function () {
-    ipcRenderer.send("facebookmsg", "helwosaodsad");
+     const newdata=store.get("userlicensekey");
+      if(newdata!=null){
+        if(newdata.licence_key!=null){
+           ipcRenderer.send("facebookmsg", "helwosaodsad");
+        }else{
+          alert("Please Enter License Key");
+        }
+      }else{
+        alert("Please Enter License Key");
+      }
   });
   // call whatsapp in main process
   const whatsapp_line = document.getElementById("open_whatsapp");
   whatsapp_line.addEventListener("click", function () {
-    ipcRenderer.send("msg", "helwosaodsad");
-
+      const newdata=store.get("userlicensekey");
+      if(newdata!=null){
+        if(newdata.licence_key!=null){
+          ipcRenderer.send("msg", "helwosaodsad");
+        }else{
+          alert("Please Enter License Key");
+        }
+      }else{
+        alert("Please Enter License Key");
+      }
     // const win = new BrowserWindow({ width: 800, height: 600, webPreferences: {
     //         nodeIntegration: true,
     //         contextIsolation:false,
